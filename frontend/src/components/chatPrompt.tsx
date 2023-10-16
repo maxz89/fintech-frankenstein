@@ -1,4 +1,3 @@
-// ChatbotPage.tsx
 import React, { useState } from 'react';
 import {
   Container,
@@ -6,11 +5,15 @@ import {
   Button,
   Paper,
   Typography,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
 } from '@mui/material';
 
 const ChatPrompt = () => {
   const [userQuestion, setUserQuestion] = useState('');
   const [botResponse, setBotResponse] = useState('');
+  const [selectedButton, setSelectedButton] = useState(''); // Add state for selected radio button
 
   const handleQuestionSubmit = async () => {
     // Simulate a response from a chatbot (replace with actual API call)
@@ -38,6 +41,31 @@ const ChatPrompt = () => {
           onChange={(e) => setUserQuestion(e.target.value)}
           margin="normal"
         />
+        <RadioGroup
+          value={selectedButton}
+          onChange={(e) => setSelectedButton(e.target.value)}
+        >
+          <FormControlLabel
+            value="button1"
+            control={<Radio />}
+            label="PaLM 2"
+          />
+          <FormControlLabel
+            value="button2"
+            control={<Radio />}
+            label="InvestLM"
+          />
+          <FormControlLabel
+            value="button3"
+            control={<Radio />}
+            label="GPT"
+          />
+          <FormControlLabel
+            value="button4"
+            control={<Radio />}
+            label="FindMA"
+          />
+        </RadioGroup>
         <Button
           variant="contained"
           color="primary"
