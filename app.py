@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import openai
 
-openai.api_key = 'pk-XBnmRQphAGlLDDtUQnBsXYEaIyGzrurbaxfyTbIqQWsMirEj'
+openai.api_key = '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'
 
 app = Flask(__name__, static_folder='./frontend/build', static_url_path='/')
 CORS(app)
@@ -24,13 +24,20 @@ def query():
         return jsonify({"error": "Prompt must be specified"}), 400
     if model == 'GPT':
         try:
-            response = openai.Completion.create(
+            response = openai.ChatCompletion.create(
                 model='gpt-4',
-                prompt=prompt,
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": prompt},
+                ],
                 max_tokens=300
             )
-            return jsonify({"response": response.choices[0].text.strip()})
+            
+            print(response['choices'][0]['message']['content'])
+            return jsonify({"response": str(response['choices'][0]['message']['content'])})
+            # return response['choices'][0]['message']['content']
         except Exception as e:
+            print(e)
             return jsonify({"error": str(e)}), 500
     
 @app.errorhandler(404)

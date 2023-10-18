@@ -17,7 +17,7 @@ const ChatPrompt = () => {
 
   const handleQuestionSubmit = async () => {
     // Simulate a response from a chatbot (replace with actual API call)
-    const response = await fetchBotResponse(userQuestion);
+    const response: string = await fetchBotResponse(userQuestion);
 
     // Set the response in the state
     setBotResponse(response);
@@ -26,7 +26,19 @@ const ChatPrompt = () => {
   const fetchBotResponse = async (question: string) => {
     // In a real application, you would send the question to a chatbot API
     // and receive a response. For simplicity, we're just echoing the question.
-    return `You asked: ${question}`;
+    const res = await fetch("http://localhost:80/query", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        "model": "GPT",
+        "prompt": question
+      })
+    });
+    console.log(res)
+    const body = await res.json();
+    return body.response;
   };
 
   return (
@@ -46,24 +58,19 @@ const ChatPrompt = () => {
           onChange={(e) => setSelectedButton(e.target.value)}
         >
           <FormControlLabel
-            value="button1"
+            value="LLaMa"
             control={<Radio />}
-            label="PaLM 2"
+            label="LLaMa"
           />
           <FormControlLabel
-            value="button2"
+            value="InvestLM"
             control={<Radio />}
             label="InvestLM"
           />
           <FormControlLabel
-            value="button3"
+            value="GPT"
             control={<Radio />}
             label="GPT"
-          />
-          <FormControlLabel
-            value="button4"
-            control={<Radio />}
-            label="FindMA"
           />
         </RadioGroup>
         <Button
