@@ -3,8 +3,9 @@ import numpy as np
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import openai
+import app_secrets
 
-openai.api_key = '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'
+openai.api_key = app_secrets.openai_apikey
 
 app = Flask(__name__, static_folder='./frontend/build', static_url_path='/')
 CORS(app)

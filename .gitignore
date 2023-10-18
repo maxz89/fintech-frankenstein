@@ -131,3 +131,6 @@ dmypy.json
 # Project data
 .DS_Store
 .empty/
+
+# Secrets
+app_secrets.py
